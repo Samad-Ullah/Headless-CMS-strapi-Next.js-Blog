@@ -10,6 +10,18 @@ export interface ICategoryAttribute {
     Slug: string;
 }
 
+export interface IJobs {
+    id: number;
+    attributes: IJobAttribute;
+}
+
+export interface IJobAttribute {
+    Title: string,
+    Description: string,
+    createdAt: string,
+    Slug: string
+}
+
 export interface IPagination {
     page: number;
     pageSize: number;

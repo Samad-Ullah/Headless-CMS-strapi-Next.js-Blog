@@ -15,7 +15,7 @@ const Navbar = () => {
             </Link>
             <ul className="flex items-center">
                 <li className="mr-6 font-medium text-gray-600">
-                    <a href="#">ABC</a>
+                    <Link href={'/career'}><a href="#">Career</a></Link>
                 </li>
                 <li className="mr-6 font-medium text-gray-600">
                     <a href="#">PQR</a>

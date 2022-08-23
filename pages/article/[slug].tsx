@@ -32,9 +32,12 @@ const slug = ({ article, notFound = false }: IPropType) => {
                 />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <div className="my-12 grid lg:grid-cols-3 gap-12 single-article">
-                <div className="col-span-2">
-                    <h1 className="text-3xl font-bold py-2">
+            <div className="my-12 ml-5 mr-5 grid lg:grid-cols-5 gap-12 single-article">
+            <div className="col-span-1 ">
+                
+                </div>
+                <div className='col-span-3'>
+<h1 className="text-3xl font-bold py-2">
                         {article.attributes.Title}
                     </h1>
                     <div className="flex items-center my-4">
@@ -68,6 +71,8 @@ const slug = ({ article, notFound = false }: IPropType) => {
                                 .body as MDXRemoteSerializeResult)}
                         />
                     </div>
+                </div>
+                <div className="col-span-1 ">
                 </div>
                
             </div>

@@ -25,7 +25,7 @@ export default Career
 
 export const getServerSideProps: GetServerSideProps = async (context:any) => {
 
-  const {data:jobs}: AxiosResponse<ICollectionResponse<IJobs[]>> =
+  const { data:jobs }: AxiosResponse<ICollectionResponse<IJobs[]>> =
    await fetchJobs()
    console.log(jobs.data)
 

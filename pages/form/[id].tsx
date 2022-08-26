@@ -1,7 +1,8 @@
 import axios, { AxiosResponse } from "axios";
 import { GetServerSideProps, NextPage } from "next";
-import React, { useState } from "react";
-import { api, ApplyJob, fetchJobById } from "../../http";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import { api, applyJob, fetchJobById, uploadCV } from "../../http";
 import { ICategoryAttribute, ICollectionResponse, IJobs } from "../../types";
 import { formatDate } from "../../utils";
 
@@ -12,44 +13,50 @@ interface IPropType {
 }
 
 const JobForm: NextPage<IPropType> = ({ job }) => {
+
+  const Router = useRouter();
+
   const [data, selectdata] = useState({
     FullName: "",
     Email: "",
     Phone: "",
     Qualification: "",
     PreviousExperience: "",
-    file:'',
+    Resume: "",
     AppliedDesignation: `${job?.item?.attributes?.Title}`,
   });
 
+  const [File, setSelectedFile] = useState<any>(null);
+
+  useEffect(() => {
+
+    const dataSubmit = async() => {
+
+      await applyJob({data})
+
+      Router.push('/')
+    }
+
+    dataSubmit();
+
+  {data?.Resume == "" ? "" : alert(`hy ypu have submitted the application for ${job?.item?.attributes?.Title}`)}
+    
+    
+  }, [data?.Resume]);
+
   const handleChange = (e: any): void => {
+
     selectdata((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+
   };
 
   const handleSubmit = async (e: any) => {
-    console.log(data);
-    e.preventDefault();
-    
-  let Resume = new FormData();
-  Resume.append("files", data.file);
 
-    api.post("http://localhost:1337/upload",{Resume})
-      .then((response) => {
-        console.log(response.data[0].id)
-        // .then(() =>{
-        //   ApplyJob({ data });
-        // }).catch((error:any) => {
-        //   console.log(error)
-        //   });
-  
-          
-      })
-      .catch((error)=>{
-        
-      console.log(error)
-  })
+    let file = new FormData();
+    file.append("files", File);
+    const response =await uploadCV(file)
+    selectdata((prev) => ({ ...prev, Resume: response?.data[0].id }));
 
-    
   };
 
   return (
@@ -67,6 +74,7 @@ const JobForm: NextPage<IPropType> = ({ job }) => {
             {job?.item?.attributes?.Description}
           </p>
         </div>
+        <div></div>
         <div className="lg:w-2/6 md:w-1/2 bg-gray-100 rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0">
           <h2 className="text-gray-900 text-lg font-medium title-font mb-5">
             {job?.item?.attributes?.Title}
@@ -131,7 +139,7 @@ const JobForm: NextPage<IPropType> = ({ job }) => {
               type="file"
               id="resume"
               name="file"
-              onChange={handleChange}
+              onChange={(e: any) => setSelectedFile(e.target.files[0])}
               className="w-full bg-white rounded border border-gray-300 focus:border-primary focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
             />
           </div>

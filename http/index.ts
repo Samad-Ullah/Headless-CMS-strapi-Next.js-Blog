@@ -24,4 +24,6 @@ export const fetchJobs = async () => api.get('/api/jobs');
 export const fetchJobById = async (id:number) => 
     api.get(`/api/jobs/${id}`);
 
-export const ApplyJob = async (data:any) => api.post('/api/forms', data)
+export const applyJob = async (data:any) => api.post('/api/forms', data)
+
+export const uploadCV = async (data:any) => api.post('/api/upload', data)
